@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Melanie 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: white;
+    background: url("foto.jpg") no-repeat center center/cover;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+}
+
+/* corazones */
+.heart {
+    position: fixed;
+    top: -10px;
+    font-size: 24px;
+    animation: fall linear forwards;
+    z-index: 2;
+}
+
+@keyframes fall {
+    to { transform: translateY(100vh); opacity: 0; }
+}
+
+.container {
+    position: relative;
+    top: 35%;
+    padding: 20px;
+    z-index: 3;
+}
+
+button {
+    font-size: 22px;
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#yes { background: #ff2e63; color: white; }
+#no { background: gray; position: absolute; }
+
+.letter {
+    position: fixed;
+    bottom: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: #ff2e63;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    width: 320px;
+    animation: rise 2s forwards;
+    z-index: 3;
+}
+
+@keyframes rise {
+    to { bottom: 20%; }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" id="content">
+    <h1>
+        A veces la vida cambia en un solo día… 💫<br><br>
+        y desde que te conocí, todo es más bonito,<br>
+        Melanie Soledad 💖
+    </h1>
+    <button onclick="start()">Continuar 💌</button>
+</div>
+
+<script>
+const audio = document.getElementById("music");
+const content = document.getElementById("content");
+let size = 1;
+let clicks = 0;
+
+function start() {
+    audio.play(); // activa música
+    nextStep();
+}
+
+function nextStep() {
+    content.innerHTML = `
+        <h1>¿Quieres ser mi San Valentín? 💘</h1>
+        <button id="yes">Sí ❤️</button>
+        <button id="no">No 😢</button>
+    `;
+
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+
+    noBtn.addEventListener("mouseover", () => {
+        noBtn.style.left = Math.random()*90+"vw";
+        noBtn.style.top = Math.random()*80+"vh";
+    });
+
+    yesBtn.addEventListener("click", () => {
+        clicks++;
+        if (clicks < 4) {
+            size += 0.5;
+            yesBtn.style.transform = `scale(${size})`;
+        } else {
+            showLove();
+        }
+    });
+}
+
+function showLove() {
+    document.body.innerHTML = "";
+
+    const letter = document.createElement("div");
+    letter.className = "letter";
+    letter.innerHTML = `
+        Sabía que dirías que sí <br><br>
+        Vamos el 14 por unas hamburguesitas 🍔<br>
+        como en los viejos tiempos…<br>
+        a las 8 pm 💖
+    `;
+    document.body.appendChild(letter);
+
+    setInterval(createHeart, 200);
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.animationDuration = (Math.random()*3+2)+"s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+}
+</script>
+
+</body>
+</html>
